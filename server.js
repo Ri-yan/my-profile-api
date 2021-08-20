@@ -5,17 +5,15 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex')
 
-const db = knex({
-  // Enter your own database information here based on what you created
+const db=knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : 'postgres',
-    password : 'psql',
-    database : 'profile'
+    connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
   }
 });
-
 
 
 const app = express();
@@ -48,24 +46,6 @@ app.post('/message', (req, res) => {
   .catch(err=>res.status(400).json(err));
 })
 
-app.listen(3000, ()=> {
-  console.log('app is running on port 3000');
+app.listen(process.env.PORT || 3000,() => {
+  console.log(`app is running on port ${process.env.PORT}`)
 })
-
-
-// const database={
-//   users:[
-//   {
-//     id:'1',
-//     name:'riyan',
-//     email:'abc@123',
-//     message:'hello'
-//   },
-//   {
-//     id:'2',
-//     name:'Jacob',
-//     email:'abc@123',
-//     message:'bye'
-//   }
-//   ]
-// }
