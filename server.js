@@ -21,17 +21,12 @@ app.use(cors())
 app.use(bodyParser.json());
 
 app.get('/', (req, res)=> {
-  console.log(res.send(db.users));
-})
+  db.select('*').from('users').then(data=>{
+  res.send(data);
+});
 
 app.post('/message', (req, res) => {
-  const {email,name,message}=req.body;
-  // database.users.push({
-  //   id:'124',
-  //   name:name,
-  //   email:email,
-  //   message:message
-  // })
+const {email,name,message}=req.body;
  db('users')
  .returning('*')
   .insert({
